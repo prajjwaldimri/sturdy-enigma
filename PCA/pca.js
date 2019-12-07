@@ -10,6 +10,7 @@ let rl = readline.createInterface(inStream, outStream);
 
 let data = [];
 
+console.time("10K Data");
 rl.on("line", line => {
   line = line.split(",");
   line.splice(1, 3);
@@ -19,10 +20,11 @@ rl.on("line", line => {
 
 rl.on("close", () => {
   const pca = new PCA(data);
-  // const eigenVectors = pca
-  //   .getEigenvectors()
-  //   .selection([0], [0, 1, 2, 3, 4, 5, 6, 7]);
-  // console.log(eigenVectors);
+  const eigenVectors = pca
+    .getEigenvectors()
+    .selection([0], [0, 1, 2, 3, 4, 5, 6, 7]);
+  console.log(eigenVectors);
   const reduced = pca.predict(data, { nComponents: 8 });
-  console.log(reduced.data);
+  // console.log(reduced.data);
+  console.timeEnd("10K Data");
 });
