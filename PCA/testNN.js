@@ -51,7 +51,7 @@ rl.on("close", () => {
   console.log(inputData.size);
   inputDataToTrainingData();
   net
-    .trainAsync(trainingData, { log: true, learningRate: 0.02 })
+    .trainAsync(trainingData, { log: true, learningRate: 0.01 })
     .then(res => {
       console.log(res);
       // console.log(net.toJSON());
@@ -60,10 +60,18 @@ rl.on("close", () => {
       console.log(
         net.run(
           inputCreator([
-            0,
+            10,
             "tcp",
             "telnet",
-            "S0",
+            "SF",
+            118,
+            2425,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
             0,
             0,
             0,
@@ -74,33 +82,25 @@ rl.on("close", () => {
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            79,
-            79,
-            1.0,
-            1.0,
+            1,
+            1,
+            0.0,
+            0.0,
             0.0,
             0.0,
             1.0,
             0.0,
             0.0,
-            91,
-            79,
-            0.87,
-            0.02,
-            0.01,
+            11,
+            3,
+            0.27,
+            0.27,
+            0.09,
             0.0,
-            0.87,
-            1.0,
             0.0,
-            0.0
+            0.0,
+            0.09,
+            0.33
           ])
         )
       );
