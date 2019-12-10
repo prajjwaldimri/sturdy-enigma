@@ -3,6 +3,7 @@ const fs = require("fs");
 const readline = require("readline");
 const path = require("path");
 const stream = require("stream");
+let isEqual = require("lodash.isequal");
 
 let inStream = fs.createReadStream("corrected");
 let outStream = new stream();
@@ -21,30 +22,39 @@ const net = new brain.NeuralNetwork();
 //   }
 // });
 
-let data = [];
+let inputData = new Set();
+let trainingData = [];
 
 rl.on("line", line => {
-  line = line.split(",");
-  line = line.map(el => {
-    if (isNaN(parseInt(el))) {
-      return el;
-    }
-    return parseInt(el);
-  });
-
-  data.push({
-    input: inputCreator(line),
-    output: { [line[41]]: 1 }
-  });
+  inputData.add(line);
 });
+
+function inputDataToTrainingData() {
+  inputData.forEach(line => {
+    line = line.split(",");
+    line = line.map(el => {
+      if (isNaN(parseInt(el))) {
+        return el;
+      }
+      return parseInt(el);
+    });
+    let isFound = false;
+    trainingData.push({
+      input: inputCreator(line),
+      output: { [line[41]]: 1 }
+    });
+  });
+}
 
 rl.on("close", () => {
   // trainingStream.endInputs();
+  console.log(inputData.size);
+  inputDataToTrainingData();
   net
-    .trainAsync(data, { log: true })
+    .trainAsync(trainingData, { log: true, learningRate: 0.02 })
     .then(res => {
       console.log(res);
-      console.log(net.toJSON());
+      // console.log(net.toJSON());
       console.time("Classification Start");
       // 0,udp,private,SF,105,146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0.00,0.00,0.00,0.00,1.00,0.00,0.00,255,255,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
       console.log(

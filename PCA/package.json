@@ -13,6 +13,7 @@
     "brain.js": "^2.0.0-alpha.9",
     "d3": "^5.14.2",
     "d3-fetch": "^1.1.2",
+    "lodash.isequal": "^4.5.0",
     "ml-dataset-iris": "^1.1.1",
     "ml-pca": "^4.0.1",
     "node-fetch": "^2.6.0"
