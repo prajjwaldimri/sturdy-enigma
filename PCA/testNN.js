@@ -1,3 +1,4 @@
+const { PCA } = require("ml-pca");
 const brain = require("brain.js");
 const fs = require("fs");
 const readline = require("readline");
@@ -10,23 +11,14 @@ let outStream = new stream();
 let rl = readline.createInterface(inStream, outStream);
 const net = new brain.NeuralNetwork();
 
-// let trainingStream = new brain.TrainStream({
-//   neuralNetwork: net,
-//   floodCallback: () => {
-//     console.log("Flood");
-//   },
-//   doneTrainingCallback: obj => {
-//     console.log(
-//       `trained in ${obj.iterations} iterations with error: ${obj.error}`
-//     );
-//   }
-// });
-
 let inputData = new Set();
 let trainingData = [];
 
 rl.on("line", line => {
   inputData.add(line);
+  const pca = new PCA(inputData);
+  const reduced = pca.predict(inputData, { nComponents: 8 });
+  console.log(reduced);
 });
 
 function inputDataToTrainingData() {
