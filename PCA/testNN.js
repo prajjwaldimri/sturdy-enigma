@@ -16,7 +16,7 @@ let trainingData = [];
 
 rl.on("line", line => {
   inputData.add(line);
-  const pca = new PCA(inputData);
+  const pca = new PCA(Array.from(inputData));
   const reduced = pca.predict(inputData, { nComponents: 8 });
   console.log(reduced);
 });
